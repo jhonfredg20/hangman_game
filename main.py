@@ -181,7 +181,7 @@ def main():
         victory = f'''
 ____________________________________________
   VICTORY!!!                                  
-    \o/        Word: {"".join(word)}          
+    \o/        Word: {''.join(word)}          
      |         Puntuation: {attempts * 10}/100                
     / \        Remaining attempts: {attempts}       
 --------------------------------------------'''
@@ -193,10 +193,10 @@ ____________________________________________
         system_clear(system)
         defeat = f'''
 ____________________________________________
-             +---+ 
-            /    ! YOU FAILED, GAME OVER!
-           o     ! 
-          /|\    ! Word: {"".join(word)}
+             +---+ YOU FAILED, GAME OVER!
+            /    ! 
+           o     ! Clue: {''.join(clue)}
+          /|\    ! Word: {''.join(word)}
           / \    ! Puntuation: {attempts * 10}/100
                  ! Remaining attempts: {attempts}
 --------------------------------------------'''
