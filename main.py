@@ -27,15 +27,16 @@ def words():
     return word
 
 
+# Clean the screen
 def system_clear(system):
     # Check if the system is equal to Windowns (w)
-    if system == 'w':
+    if system == 'y':
         os.system('cls')
     else:
         os.system('clear')
 
 
-def interface(word, clue, attempts):
+def interface(clue, attempts):
     interface = f'''
 __________________________________________________
 {'TRY TO GUESS THE WORD!'.center(50)}
@@ -157,21 +158,19 @@ def main():
 
 
     # Check the operating system the scrip is running from
-    system = input('If your system is Windowns enter a "w": ')
-
+    system = input('Are you using Windowns y/n: ')
 
     # Loop
     while clue != word and attempts > 0:
         # Generation of the Interface
         system_clear(system.lower())
-        print(interface(word, clue, attempts))
-
+        print(interface(clue, attempts))
+        
         # Letter an Exception Management
         letter = input('Enter a letter: ') 
-       #  if letter.isnumeric() or int(letter) < 0:
-        if letter.isnumeric():
-            raise ValueError('Numbers can not be entered. Please, try again.')
-
+        if letter.isnumeric() or letter.isspace() or letter == '': 
+            raise ValueError('Numbers,spaces and symbols are not allowed. Please, try again.')
+        
         # Function that verifies if there is the letter matches the word
         clue, attempts = game(word, clue, letter, attempts)
 
