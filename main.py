@@ -19,7 +19,7 @@ def normalize(s):
 # Generate the words
 def words():
     number_word = random.randint(0, 170) # Generate a random number between 0 and 170
-    with open('./archivos/data.txt', 'r', encoding='utf-8') as data:
+    with open('./files/data.txt', 'r', encoding='utf-8') as data:
         # The method str.rstrip() removes the line breaks (\n)
         words = {str.rstrip(word) for word in data} # Generate a dictionary with the words in data 
         words = dict(enumerate(words)) # Add a key to the dictionary
