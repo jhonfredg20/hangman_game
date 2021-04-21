@@ -1,3 +1,4 @@
+import os
 import random
 
 
@@ -26,26 +27,81 @@ def words():
     return word
 
 
-def interface(word, clue, oportunities):
-    pass
+def system_clear(system):
+    if system == 'w':
+        os.system('cls')
+    else:
+        os.system('clear')
 
 
-def game():
-    word = words()
-    oportunities = 10
-    clue = ['_' for i in word]
-    print("".join(word))
-    while clue != word:
-        print("".join(clue))
-        letter = input('Enter a letter: ')
-        for i, l in enumerate(word):
-            if l.lower() == letter.lower():
-                clue[i] = l
+def interface(word, clue, attempts):
+    if attempts == 9:
+        interface = f'''
+
+        '''
+
+
+def game(word, clue, letter, attempts):
+    end_loop = 0 # Loop repetitions counter 
+    coincidence = 0 # Match indentifier
+    for i, l in enumerate(word): 
+        end_loop += 1 
+        if l.lower() == letter.lower() and attempts > 0: 
+            clue[i] = l # Add the letter in the corresponding index
+            coincidence += 1 
+        else: 
+            if end_loop == len(word) and coincidence == 0: 
+                attempts -= 1 
+    return clue, attempts
+         
 
 
 def main():
-    game()
+    # Variables
+    word = words()
+    attempts = 10
+    clue = ['_' for i in word]
+    system = input('If your system is Windowns enter a "w": ')
+
+
+    # Loop
+    while clue != word and attempts > 0:
+        system_clear(system)
+        print(interface(word, clue, attempts))
+        letter = input('Enter a letter: ')
+        clue, attempts = game(word, clue, letter, attempts)
+
+
+    # Victory
+    if clue == word and attempts > 0:
+        system_clear(system)
+        victory = f'''
+____________________________________________
+  VICTORY!!!                                  
+    \o/        Word: {"".join(word)}          
+     |         Puntuation: {attempts * 10}/100                
+    / \        Remaining attempts: {attempts}       
+--------------------------------------------'''
+        print(victory)
+
+
+    # Defeat
+    elif clue != word and attempts == 0:
+        system_clear(system)
+        defeat = f'''
+____________________________________________
+             +---+
+            /    !
+           o     ! Word: {"".join(word)}
+          /|\    ! Puntuation: {attempts * 10}/100
+          / \    ! Remaining attempts: {attempts}
+                 !
+--------------------------------------------
+You Failed, Game Over!
+'''
+        print(defeat)
+
 
 
 if __name__ == '__main__':
-    game()
+    main()
