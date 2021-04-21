@@ -28,6 +28,7 @@ def words():
 
 
 def system_clear(system):
+    # Check if the system is equal to Windowns (w)
     if system == 'w':
         os.system('cls')
     else:
@@ -35,11 +36,103 @@ def system_clear(system):
 
 
 def interface(word, clue, attempts):
-    if attempts == 9:
+    interface = f'''
+__________________________________________________
+{'TRY TO GUESS THE WORD!'.center(50)}
+{''.join(clue).center(50)}
+{f'Attempts: {attempts}'.center(50)}
+--------------------------------------------------'''.center(50)
+    if attempts == 1:
         interface = f'''
-
-        '''
-
+____________________________________________
+             +---+ 
+            /    ! 
+           o     ! {''.join(clue)}
+          /|\    ! 
+          /      ! 
+                 ! Remaining attempts: {attempts}
+--------------------------------------------'''
+    elif attempts == 2:
+        interface = f'''
+____________________________________________
+             +---+ 
+            /    ! 
+           o     ! {''.join(clue)}
+          /|\    ! 
+                 ! 
+                 ! Remaining attempts: {attempts}
+--------------------------------------------'''
+    elif attempts == 3:
+        interface = f'''
+____________________________________________
+             +---+ 
+            /    ! 
+           o     ! {''.join(clue)}
+          /|     ! 
+                 ! 
+                 ! Remaining attempts: {attempts}
+--------------------------------------------'''
+    elif attempts == 4:
+        interface = f'''
+____________________________________________
+             +---+ 
+            /    ! 
+           o     ! {''.join(clue)}
+           |     ! 
+                 ! 
+                 ! Remaining attempts: {attempts}
+--------------------------------------------'''
+    elif attempts == 5:
+        interface = f'''
+____________________________________________
+             +---+ 
+            /    ! 
+           o     ! {''.join(clue)}
+                 ! 
+                 ! 
+                 ! Remaining attempts: {attempts}
+--------------------------------------------'''
+    elif attempts == 6:
+        interface = f'''
+____________________________________________
+             +---+ 
+            /    ! 
+                 ! {''.join(clue)}
+                 ! 
+                 ! 
+                 ! Remaining attempts: {attempts}
+--------------------------------------------'''
+    elif attempts == 7:
+        interface = f'''
+____________________________________________
+             +---+ 
+                 ! 
+                 ! {''.join(clue)}
+                 ! 
+                 ! 
+                 ! Remaining attempts: {attempts}
+--------------------------------------------'''
+    elif attempts == 8:
+        interface = f'''
+____________________________________________
+              ---+ 
+                 ! 
+                 ! {''.join(clue)}
+                 ! 
+                 ! 
+                 ! Remaining attempts: {attempts}
+--------------------------------------------'''
+    elif attempts == 9:
+        interface = f'''
+____________________________________________
+               --+ 
+                 ! 
+                 ! {''.join(clue)}
+                 ! 
+                 ! 
+                 ! Remaining attempts: {attempts}
+--------------------------------------------'''
+    return interface
 
 def game(word, clue, letter, attempts):
     end_loop = 0 # Loop repetitions counter 
@@ -51,24 +144,35 @@ def game(word, clue, letter, attempts):
             coincidence += 1 
         else: 
             if end_loop == len(word) and coincidence == 0: 
-                attempts -= 1 
-    return clue, attempts
+                attempts -= 1 # If no matches are found, subtract one from the attempts
+    return clue, attempts # Returns the clue and attempts remaining
          
 
 
 def main():
     # Variables
-    word = words()
+    word = words() # Receives the data word as a list
     attempts = 10
-    clue = ['_' for i in word]
+    clue = ['_' for i in word] # List of "_" of the same length as the word
+
+
+    # Check the operating system the scrip is running from
     system = input('If your system is Windowns enter a "w": ')
 
 
     # Loop
     while clue != word and attempts > 0:
-        system_clear(system)
+        # Generation of the Interface
+        system_clear(system.lower())
         print(interface(word, clue, attempts))
-        letter = input('Enter a letter: ')
+
+        # Letter an Exception Management
+        letter = input('Enter a letter: ') 
+       #  if letter.isnumeric() or int(letter) < 0:
+        if letter.isnumeric():
+            raise ValueError('Numbers can not be entered. Please, try again.')
+
+        # Function that verifies if there is the letter matches the word
         clue, attempts = game(word, clue, letter, attempts)
 
 
@@ -90,15 +194,13 @@ ____________________________________________
         system_clear(system)
         defeat = f'''
 ____________________________________________
-             +---+
-            /    !
-           o     ! Word: {"".join(word)}
-          /|\    ! Puntuation: {attempts * 10}/100
-          / \    ! Remaining attempts: {attempts}
-                 !
---------------------------------------------
-You Failed, Game Over!
-'''
+             +---+ 
+            /    ! YOU FAILED, GAME OVER!
+           o     ! 
+          /|\    ! Word: {"".join(word)}
+          / \    ! Puntuation: {attempts * 10}/100
+                 ! Remaining attempts: {attempts}
+--------------------------------------------'''
         print(defeat)
 
 
