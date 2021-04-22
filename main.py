@@ -36,12 +36,14 @@ def system_clear(system):
         os.system('clear')
 
 
-def interface(clue, attempts):
+def interface(clue, attempts, history):
     interface = f'''
 __________________________________________________
 {'TRY TO GUESS THE WORD!'.center(50)}
 {''.join(clue).center(50)}
 {f'Attempts: {attempts}'.center(50)}
+--------------------------------------------------
+{f'{history}'.center(50)}
 --------------------------------------------------'''.center(50)
     if attempts == 1:
         interface = f'''
@@ -52,6 +54,8 @@ ____________________________________________
           /|\    ! 
           /      ! 
                  ! Remaining attempts: {attempts}
+--------------------------------------------
+{f'{history}'.center(40)}
 --------------------------------------------'''
     elif attempts == 2:
         interface = f'''
@@ -62,6 +66,8 @@ ____________________________________________
           /|\    ! 
                  ! 
                  ! Remaining attempts: {attempts}
+--------------------------------------------
+{f'{history}'.center(40)}
 --------------------------------------------'''
     elif attempts == 3:
         interface = f'''
@@ -72,6 +78,8 @@ ____________________________________________
           /|     ! 
                  ! 
                  ! Remaining attempts: {attempts}
+--------------------------------------------
+{f'{history}'.center(40)}
 --------------------------------------------'''
     elif attempts == 4:
         interface = f'''
@@ -82,6 +90,8 @@ ____________________________________________
            |     ! 
                  ! 
                  ! Remaining attempts: {attempts}
+--------------------------------------------
+{f'{history}'.center(40)}
 --------------------------------------------'''
     elif attempts == 5:
         interface = f'''
@@ -92,6 +102,8 @@ ____________________________________________
                  ! 
                  ! 
                  ! Remaining attempts: {attempts}
+--------------------------------------------
+{f'{history}'.center(40)}
 --------------------------------------------'''
     elif attempts == 6:
         interface = f'''
@@ -102,6 +114,8 @@ ____________________________________________
                  ! 
                  ! 
                  ! Remaining attempts: {attempts}
+--------------------------------------------
+{f'{history}'.center(40)}
 --------------------------------------------'''
     elif attempts == 7:
         interface = f'''
@@ -112,6 +126,8 @@ ____________________________________________
                  ! 
                  ! 
                  ! Remaining attempts: {attempts}
+--------------------------------------------
+{f'{history}'.center(40)}
 --------------------------------------------'''
     elif attempts == 8:
         interface = f'''
@@ -122,6 +138,8 @@ ____________________________________________
                  ! 
                  ! 
                  ! Remaining attempts: {attempts}
+--------------------------------------------
+{f'{history}'.center(40)}
 --------------------------------------------'''
     elif attempts == 9:
         interface = f'''
@@ -132,6 +150,8 @@ ____________________________________________
                  ! 
                  ! 
                  ! Remaining attempts: {attempts}
+--------------------------------------------
+{f'{history}'.center(40)}
 --------------------------------------------'''
     return interface
 
@@ -155,6 +175,7 @@ def main():
     word = words() # Receives the data word as a list
     attempts = 10
     clue = ['_' for i in word] # List of "_" of the same length as the word
+    history = []
 
 
     # Check the operating system the scrip is running from
@@ -164,13 +185,16 @@ def main():
     while clue != word and attempts > 0:
         # Generation of the Interface
         system_clear(system.lower())
-        print(interface(clue, attempts))
+        print(interface(clue, attempts, history))
         
         # Letter an Exception Management
         letter = input('Enter a letter: ') 
         if letter.isnumeric() or letter.isspace() or letter == '': 
             raise ValueError('Numbers,spaces and symbols are not allowed. Please, try again.')
-        
+
+        # History of letters
+        history.append(letter)
+
         # Function that verifies if there is the letter matches the word
         clue, attempts = game(word, clue, letter, attempts)
 
@@ -184,6 +208,8 @@ ____________________________________________
     \o/        Word: {''.join(word)}          
      |         Puntuation: {attempts * 10}/100                
     / \        Remaining attempts: {attempts}       
+--------------------------------------------
+{f'{history}'.center(50)}
 --------------------------------------------'''
         print(victory)
 
@@ -199,6 +225,8 @@ ____________________________________________
           /|\    ! Word: {''.join(word)}
           / \    ! Puntuation: {attempts * 10}/100
                  ! Remaining attempts: {attempts}
+--------------------------------------------
+{f'{history}'.center(50)}
 --------------------------------------------'''
         print(defeat)
 
